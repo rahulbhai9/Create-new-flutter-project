@@ -1,0 +1,40 @@
+name: Flutter Project Setup
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  setup_flutter_project:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v1
+
+      - name: Install Git
+        run: sudo apt-get -y install git
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Create Flutter Project
+        run: flutter create ${{ github.repository }}
+
+      - name: Set up Git repository
+        run: |
+          echo "Creating repository..."
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+          gh repo create new-repo-name-rahul --public
+
+      - name: Push to Repository
+        run: |
+          cd ${{ github.repository }}
+          git remote add new-origin ${{ github.repository }}
+          git push new-origin main
