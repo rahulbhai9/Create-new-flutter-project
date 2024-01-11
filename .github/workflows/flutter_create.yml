@@ -21,7 +21,7 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config --global user.name "${{ github.actor }}"
+          git config --global user.name "rahulbhai9"
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
 
       - name: Create Flutter Project
@@ -30,7 +30,6 @@ jobs:
       - name: Set up Git repository
         run: |
           echo "Creating repository..."
-          cd exam_traker
           git init
           git add .
           git commit -m "first commit"
