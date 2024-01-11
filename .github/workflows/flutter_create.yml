@@ -30,7 +30,7 @@ jobs:
       - name: Set up Git repository
         run: |
           echo "Creating repository..."
-          cd ${{ github.repository }}
+          cd exam_traker
           git init
           git add .
           git commit -m "first commit"
