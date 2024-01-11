@@ -25,15 +25,18 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
 
       - name: Create Flutter Project
-        run: flutter create ${{ github.repository }}
+        run: flutter create exam_traker
 
       - name: Set up Git repository
         run: |
           echo "Creating repository..."
-          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
-          gh repo create new-repo-name-rahul --public
-
-      - name: Push to Repository
+          cd ${{ github.repository }}
+          git init
+          git add .
+          git commit -m "first commit"
+          git branch -M main
+          git remote add origin https://github.com/rahulbhai9/fff.git
+          git push -u origin main
         run: |
           cd ${{ github.repository }}
           git remote add new-origin ${{ github.repository }}
