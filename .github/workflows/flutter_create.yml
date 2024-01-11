@@ -37,7 +37,3 @@ jobs:
           git branch -M main
           git remote add origin https://github.com/rahulbhai9/fff.git
           git push -u origin main
-        run: |
-          cd ${{ github.repository }}
-          git remote add new-origin ${{ github.repository }}
-          git push new-origin main
