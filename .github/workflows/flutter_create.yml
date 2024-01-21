@@ -27,6 +27,7 @@ jobs:
         channel: 'stable' # 'dev', 'alpha', default to: 'stable'
     # Get flutter dependencies.
     - run: flutter pub get
+    - run: flutter pub outdated
     - run: flutter pub upgrade
 
     - run: flutter clean
