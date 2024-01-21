@@ -30,7 +30,9 @@ jobs:
     - run: flutter pub outdated
     - run: flutter pub upgrade
 
+    - run: flutter pub upgrade --major-versions 
     - run: flutter clean
+    - run: flutter pub get
     
 
     # Statically analyze the Dart code for any errors.
