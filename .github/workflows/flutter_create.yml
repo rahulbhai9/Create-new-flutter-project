@@ -1,50 +1,56 @@
-name: Flutter CI
-
-# This workflow is triggered on pushes to the repository.
+name: Create and Build Flutter Project
 
 on:
   push:
     branches:
-    - main
-    
-# on: push    # Default will running for every branch.
-    
+      - main
+  pull_request:
+    branches:
+      - main
+
 jobs:
-  build:
-    # This job will run on ubuntu virtual machine
+  create_flutter_project:
     runs-on: ubuntu-latest
+
     steps:
-    
-    # Setup Java environment in order to build the Android app.
-    - uses: actions/checkout@v1
-    - uses: actions/setup-java@v1
-      with:
-        java-version: '12.x'
-    
-    # Setup the flutter environment.
-    - uses: subosito/flutter-action@v1
-      with:
-        channel: 'stable' # 'dev', 'alpha', default to: 'stable'
-    # Get flutter dependencies.
-    - run: flutter pub get
-    - run: flutter pub outdated
-    - run: flutter pub upgrade
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - run: flutter pub upgrade --major-versions 
-    - run: flutter clean
-    - run: flutter pub get
-    
+      # Step 2: Set up Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.10.0'  # Specify the Flutter version you want
 
-    # Statically analyze the Dart code for any errors.
-    - run: flutter analyze .
-    
+      # Step 3: Create a new Flutter project
+      - name: Create a new Flutter project
+        run: flutter create my_flutter_project
 
-    
-    # Build apk.
-    - run: flutter build apk
-    
-    # Upload generated apk to the artifacts.
-    - uses: actions/upload-artifact@v1
-      with:
-        name: release-apk
-        path: build/app/outputs/apk/release/app-release.apk
+      # Step 4: Replace main.dart and pubspec.yaml with files from the repo
+      - name: Replace files
+        run: |
+          # Copy main.dart from the repo to the new Flutter project
+          cp ./main.dart ./my_flutter_project/lib/main.dart
+          
+          # Copy pubspec.yaml from the repo to the new Flutter project
+          cp ./pubspec.yaml ./my_flutter_project/pubspec.yaml
+
+      # Step 5: Get dependencies (run 'flutter pub get')
+      - name: Get Flutter dependencies
+        run: cd my_flutter_project && flutter pub get
+
+      # Step 6: Build the APK
+      - name: Build APK
+        run: cd my_flutter_project && flutter build apk --release
+
+      # Step 7: List build outputs to verify APK location
+      - name: List APK output
+        run: ls -R my_flutter_project/build/app/outputs/flutter-apk
+
+      # Step 8: Upload the APK as an artifact
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release.apk
+          path: my_flutter_project/build/app/outputs/flutter-apk/app-release.apk
