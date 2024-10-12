@@ -34,7 +34,7 @@ jobs:
           cp ./main.dart ./my_flutter_project/lib/main.dart
           
           # Copy pubspec.yaml from the repo to the new Flutter project
-          cp ./pubspec.yaml ./my_flutter_project/pubspec.yaml
+          # cp ./pubspec.yaml ./my_flutter_project/pubspec.yaml
 
       # Step 5: Get dependencies (run 'flutter pub get')
       - name: Get Flutter dependencies
