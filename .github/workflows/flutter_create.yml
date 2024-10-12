@@ -21,7 +21,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.10.0'  # Specify the Flutter version you want
+          flutter-version: '3.13.0'  # Update to Flutter version 3.13.0 or higher
 
       # Step 3: Create a new Flutter project
       - name: Create a new Flutter project
